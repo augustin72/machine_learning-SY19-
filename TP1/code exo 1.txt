@@ -1,0 +1,36 @@
+data_train=  df[which(train==TRUE),]
+data_test= df[which(train==FALSE),]
+x_train = data.frame(c(data_train$lcavol), c(data_train$lweight), c(data_train$age), c(data_train$lbph) )
+y_train = df_train$lpsa
+x_test = data.frame(c(data_test$lcavol), c(data_test$lweight), c(data_test$age), c(data_test$lbph) )
+
+#predition des donnes de test :
+y_pred = knn.reg(x_train, x_test, y_train, k=3)
+
+#pour le mettre en vecteur :
+y_pred_resul = y_pred$pred
+
+#calucl du truc quadratique :
+y_verite = df[!df$train, "lpsa"]
+
+erreur_observee = y_verite - y_pred_resul
+
+erreur_quadratique = erreur_observee^2
+erreur_quadratique_moyenne = mean(erreur_quadratique)
+resultat_erreur_quadratique = sqrt(erreur_quadratique_moyenne)
+
+#’erreur quadratique moyenne estimée sur l’ensemble d’apprentissage à partir de k
+tableau_erreur_quadratique = rep(NaN, 10)
+y_verite = df[!df$train, "lpsa"]
+
+for ( k in 1:10) {
+	y_pred = knn.reg(x_train, x_test, y_train, k=k)
+	y_pred_resul = y_pred$pred
+	erreur_observee = y_verite - y_pred_resul
+	erreur_quadratique = erreur_observee^2
+	erreur_quadratique_moyenne = mean(erreur_quadratique)
+	resultat_erreur_quadratique = sqrt(erreur_quadratique_moyenne)
+	tableau_erreur_quadratique[k] = resultat_erreur_quadratique
+}
+plot(tableau_erreur_quadratique)
+

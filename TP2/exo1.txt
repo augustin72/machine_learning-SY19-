@@ -1,0 +1,36 @@
+#TP2 SY19
+
+#changer le répoertoire courant
+
+data_prostate = read.table("prostate.data")
+plot(data_prostate)
+#on peut deja observer les differentes correlations
+
+
+#Sous R : lm(variable à expliquer ~ variable(s) explicative(s), ...)
+#exemple : 
+
+data_lpsa = data_prostate$lpsa
+data_lpsa
+
+#On prend pour variable a expliquer : data_lpsa
+#variable explicative : lcavol
+#on preçise data = xxx car les nom des colonnes (pour lcavol) sont inclue dans les data
+model = lm(data_lpsa ~ lcavol, data = data_prostate)
+
+#pour avoir un resumé :
+summary(model)
+
+#ici on veut toutes la colonnes comme variables explicatives, donc on met "." :
+#ATTENTION : du coup, il faut mettre le nom de la colonne lpsa et non plus le vecteur qu'on a créer comme variable explicative
+model = lm(lpsa ~ ., data = data_prostate)
+summary(model)
+1col : estimation des Beta (une observation de beta chapeau) une obersvation de cet estuimateur 
+2col : estmation de la variance de cet etsimateur(sigma ^)
+3col : 
+pr : p-value (si p-value petit, c'est significa
+
+#Quels coefficients sont significativement non nuls ? 
+
+
+#La régression estelle globalement significative ?
